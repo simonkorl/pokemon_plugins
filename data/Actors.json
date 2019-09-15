@@ -1,0 +1,10 @@
+[
+null,
+{"id":1,"battlerName":"","characterIndex":0,"characterName":"柯尔","classId":1,"equips":[0],"faceIndex":0,"faceName":"Actor1","traits":[{"code":11,"dataId":5,"value":1}],"initialLevel":5,"maxLevel":99,"name":"柯尔","nickname":"","note":"<no_battle:1>\n<no_menu:1>","profile":""},
+{"id":2,"battlerName":"","characterIndex":0,"characterName":"妙蛙种子","classId":2,"equips":[0,0,0,0,0],"faceIndex":2,"faceName":"test","traits":[{"code":22,"dataId":0,"value":1}],"initialLevel":5,"maxLevel":99,"name":"妙蛙种子","nickname":"","note":"<PKM Elements: 2, 13>\n<exp table: Medium>","profile":""},
+{"id":3,"battlerName":"","characterIndex":0,"characterName":"Monster","classId":3,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"Monster","traits":[],"initialLevel":1,"maxLevel":99,"name":"超音蝠","nickname":"","note":"<PKM Elements: 8, 13>\n<exp table: Fluctuating>","profile":""},
+{"id":4,"battlerName":"","characterIndex":5,"characterName":"Actor2","classId":1,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"Evil","traits":[],"initialLevel":1,"maxLevel":99,"name":"test","nickname":"","note":"","profile":""},
+{"id":5,"battlerName":"","characterIndex":0,"characterName":"","classId":1,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"","nickname":"","note":"","profile":""},
+{"id":6,"battlerName":"","characterIndex":0,"characterName":"","classId":1,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"","nickname":"","note":"","profile":""},
+{"id":7,"battlerName":"","characterIndex":0,"characterName":"","classId":1,"equips":[0,0,0,0,0],"faceIndex":0,"faceName":"","traits":[],"initialLevel":1,"maxLevel":99,"name":"","nickname":"","note":"","profile":""}
+]
