@@ -185,7 +185,7 @@ Game_Enemy.prototype.ev = function() {
 			for (var i = 0; i < ev.length; i++) {
 				if (!actor.isDead()) {
 					if (actor._paramPlus[i] < actor.maxEv()) {
-						actor._paramPlus[i] += ev[i];
+                        actor._paramPlus[i] += ev[i];
 					};
 				};
 			};
@@ -230,7 +230,8 @@ Game_Enemy.prototype.gold = function() {
 MC.BattleEndHandler.makeRewardsEvEnd = BattleManager.makeRewards;
 BattleManager.makeRewards = function() {
 	MC.BattleEndHandler.makeRewardsEvEnd.call(this);
-	this._rewards.ev = $gameTroop.evTotal();
+    this._rewards.ev = $gameTroop.evTotal();
+    // console.log("add ev");
 };
 
 Game_Troop.prototype.evTotal = function() {

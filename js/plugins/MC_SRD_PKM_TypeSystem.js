@@ -738,7 +738,7 @@ Game_Enemy.prototype.getPKMTypes = function() {
 
     if(this.enemy().actorFix > 0) result = $dataActors[this.enemy().actorFix].PKMElements;
     else console.error("The enemy has no assigned actor" + this.enemy());
-    console.log(result);
+    // console.log(result);
     return result;
 };
 
