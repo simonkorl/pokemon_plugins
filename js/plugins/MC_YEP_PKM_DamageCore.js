@@ -55,7 +55,9 @@ Yanfly.DMG.version = 1.07;
  * 2. MC_SRD_PKM_TypeSystem.js: Without it, the program will break down when
  * calculating damage.
  * Place it ABOVE this plugin.
- * 
+ * 3. MC_FFP_PKM_EnemyLevels.js: Without it, the program will break down during
+ * damage calculation.
+ * Place it ABOVE this plugin.
  * ============================================================================
  * Introduction
  * ============================================================================

@@ -1099,6 +1099,7 @@
  * !!! Vital (The program cannot work properly if you lack any one of these):
  * 1. MC_SRD_PKM_CopyActor.js: Without it you will get an error message. Place it
  * ABOVE this plugin.
+ * 2. MC_FFP_PKM_BaseStats.js: Place it ABOVE this one, or stats cannot get correct answer.
  *
  * ============================================================================
  *  Description
