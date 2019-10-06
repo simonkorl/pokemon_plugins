@@ -51,14 +51,13 @@
  * 
  * @help
  * 
- * todo: this plugin must to be updated to realize the stat reset during switching pokemon!
  * This script adds Pokemon's Stat Modifier into RMMV. This plugin allows RMMV to store and read stat modifier
  * as it is in Pokemon. 
  * It also offer notetags to add stat changes for skills and items. 
  * You can get the stat modify rate using functions.
  * 
  * ===========================================================================
- *  Notetags
+ *  Notetags (not case-sensitive)
  * ===========================================================================
  * <Stat Change: a,name(numId),X,rate = 100>
  * Use a or b to represent the actor or the enemy. 
@@ -129,7 +128,8 @@ BattleManager.resetStatLevel = function(){
         }
     }
 }
-//todo add stat reset switching pokemon
+// todo: this plugin must to be updated to realize the stat reset during switching pokemon!
+// todo add stat reset switching pokemon
 //=============================================================================
 // stat change functions
 //=============================================================================
@@ -251,45 +251,49 @@ DataManager.getStatChangesNotetags = function(group) {
 	for (var n = 1; n < group.length; n++) {
 		var obj = group[n];
         var notedata = obj.note.split(/[\r\n]+/);
+        const TARGET = 0;
+        const STAT = 1;
+        const MODIFY = 2;
+        const PROB = 3;
         obj.statChangesData = [];
 		for (var i = 0,line = "",myArray; i < notedata.length; i++) {
             line = notedata[i];
             myArray = line.match(noteStatChange);
 			if (myArray) {
                 var change = [-1,-1,0,0];
-                change[0] = myArray[1] === 'a' ? 0 : 1;
+                change[TARGET] = myArray[1] === 'a' ? 0 : 1;
                 if(myArray[2].match(/\d/i)){
-                    change[1] = parseInt(myArray[2]);
+                    change[STAT] = parseInt(myArray[2]);
                 }
                 else{
                     switch(myArray[2].toLowerCase()){
                         case 'atk':
-                            change[1] = 0;
+                            change[STAT] = 0;
                             break;
                         case 'def':
-                            change[1] = 1;
+                            change[STAT] = 1;
                             break;
                         case 'sat':
-                            change[1] = 2;
+                            change[STAT] = 2;
                             break;
                         case 'sdf':
-                            change[1] = 3;
+                            change[STAT] = 3;
                             break;
                         case 'spd':
-                            change[1] = 4;
+                            change[STAT] = 4;
                             break;
                         case 'acu':
-                            change[1] = 5;
+                            change[STAT] = 5;
                             break;
                         case 'eva':
-                            change[1] = 6;
+                            change[STAT] = 6;
                             break;
                         default:
                             console.error("stat change tag error! name is:" + myArray[2]);
                     }
                 }
-                change[2] = parseInt(myArray[3]);
-                change[3] = parseInt(myArray[4]);
+                change[MODIFY] = parseInt(myArray[3]);
+                change[PROB] = parseInt(myArray[4]);
                 obj.statChangesData.push(change);
             }
 		}

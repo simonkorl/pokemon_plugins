@@ -1,7 +1,7 @@
 //=============================================================================
  /*:
  * @plugindesc v0.10; This plugin removes evade system in RMMV and change the fomula of hitting target into Pokemon's style of Gen5
- * @author Monster Circuit
+ * @author Monster Circuit(MC)
  *
  * @param miss message
  * @disc the text shows when a skill misses
@@ -11,19 +11,12 @@
  * 
  * This script modifies the original hit system into Pokemon Gen5's style.
  * You can edit the success rate in the database of skills to adjust their change to hit the target.
- *
  *=============================================================================
- *   Pokemon Acurracy System in Gen5 (Simplified Chinese Version)
+ *  Dependencies
  *=============================================================================
- * 技能命中值
- * 每个招式都有命中值设定，命中的取值范围在0～100。
- * 通过技能命中值乘以命中修正，产生实际的命中率，并以命中率进行命中判定。
- * 命中值为0的招式在游戏中显示为“--”，不经过命中判定，使用后必定能命中。
- * 命中值变动的招式
- * 雷电的命中值在雨天为必中，晴天下为50。
- * 暴风的命中值在雨天为必中，晴天下为50。
- * 暴风雪的命中值在冰雹天气为必中。
- *  一击必杀技的命中率采用特殊的公式，不受命中修正效果影响。
+ *  * !!! Vital (The program cannot work properly if you lack any one of these):
+ * 1. MC_PKM_StatModifier.js: Without it, the level of acuracy stat cannot be change
+ * by skills and an error will be raised. Place it ABOVE this one.
  * 
  * ============================================================================
  *   How to use
@@ -31,7 +24,7 @@
  * In the database, the skill's interface has a parameter called 'success rate'.
  * Input 0~100 in this blank. 
  * 
- * 0 means the skill will always hit the target.
+ * 0 means the skill will always HIT the target.
  * 
  * When the value is not 0, the hit rate is calculated as follows:
  * successRate * acurrayModifierRate / 100
@@ -51,6 +44,18 @@
  * 4 7/3
  * 5 8/3
  * 6 9/3
+ *=============================================================================
+ *   Pokemon Acurracy System in Gen5 (Simplified Chinese Version)
+ *=============================================================================
+ * 技能命中值
+ * 每个招式都有命中值设定，命中的取值范围在0～100。
+ * 通过技能命中值乘以命中修正，产生实际的命中率，并以命中率进行命中判定。
+ * 命中值为0的招式在游戏中显示为“--”，不经过命中判定，使用后必定能命中。
+ * 命中值变动的招式
+ * 雷电的命中值在雨天为必中，晴天下为50。
+ * 暴风的命中值在雨天为必中，晴天下为50。
+ * 暴风雪的命中值在冰雹天气为必中。
+ *  一击必杀技的命中率采用特殊的公式，不受命中修正效果影响。
  * ============================================================================
  *   Version
  * ============================================================================
@@ -63,14 +68,14 @@ var MC = MC || {};
 MC.PKM = MC.PKM || {};
 MC.PKM.AcuSystem = MC.PKM.AcuSystem || {};
 MC.PKM.Parameters = PluginManager.parameters('MC_PKM_AcuSystem');
-MC.PKM.AcuSystem.__acuRate = [3/9,3/8,3/7,3/6,3/5,3/4,3/3,4/3,5/3,6/3,7/3,8/3,9/3];
+MC.PKM.AcuSystem._acuRate = [3/9,3/8,3/7,3/6,3/5,3/4,3/3,4/3,5/3,6/3,7/3,8/3,9/3];
 if(Imported.MC_PKM_StatModifier){
     Game_Action.prototype.itemHit = function(target) {
         if(this.item().successRate === 0) //todo add more always hit situation
             return 1;
         //todo get skill basic acurracy
         if(this.item().isOHKO){
-            //todo add OHKO
+            //todo add OHKO(one hit KO)
             return 0;
         }
         else{
@@ -93,7 +98,7 @@ if(Imported.MC_PKM_StatModifier){
             acu -= eva;
             acu = acu.clamp(-6,6);
             //todo add more traits
-            return this.item().successRate * MC.PKM.AcuSystem.__acuRate[acu + 6] / 100;
+            return this.item().successRate * MC.PKM.AcuSystem._acuRate[acu + 6] / 100;
         }
     }
     

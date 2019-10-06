@@ -1,6 +1,6 @@
 /*:
  * @plugindesc Allows you to copy Actors to have multiple instances of the same Actor in your game.
- * @author SumRndmDde
+ * @author MC, SumRndmDde
  *
  * @param Initial Copy Mode
  * @desc If 'true', then Copy Mode will start on. When Copy Mode is on, "Change Party Member" will copy Actors.
@@ -89,24 +89,6 @@
  *   actor.originalId()
  *
  * The ID of the Actor the Copy Actor was created from.
- *
- *
- * ==========================================================================
- *  End of Help File
- * ==========================================================================
- * 
- * Welcome to the bottom of the Help file.
- *
- *
- * Thanks for reading!
- * If you have questions, or if you enjoyed this Plugin, please check
- * out my YouTube channel!
- *
- * https://www.youtube.com/c/SumRndmDde
- *
- *
- * Until next time,
- *   ~ SumRndmDde
  *
  */
 var MC = MC || {};

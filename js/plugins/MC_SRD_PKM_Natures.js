@@ -1,6 +1,6 @@
 /*:
  * @plugindesc Replicates the Nature system from Pokemon games to affect Actors.
- * @author SumRndmDde
+ * @author MC, SumRndmDde
  *
  * @param Buff Boost Ratio
  * @desc The value that is multiplied by the stats that are buffed from the Nature.
@@ -1093,11 +1093,16 @@
  * Version 1.01
  * SumRndmDde
  *
+ *=============================================================================
+ *  Dependencies
+ *=============================================================================
+ * !!! Vital (The program cannot work properly if you lack any one of these):
+ * 1. MC_SRD_PKM_CopyActor.js: Without it you will get an error message. Place it
+ * ABOVE this plugin.
  *
- * This plugin requires the Copy Actors (SRD_CopyActors) plugin.
- * Make sure it is placed above this plugin.
- *
- *
+ * ============================================================================
+ *  Description
+ * ============================================================================
  * This is a Plugin that replicates the Nature system from Pokemon.
  * Each individual Actor will be assigned a random Nature when they are
  * created. This Nature will give certain buffs and nerfs to the Actor
@@ -1158,33 +1163,15 @@
  *
  * Returns the ID of the Actor's nature.
  *
- *
- * ==========================================================================
- *  End of Help File
- * ==========================================================================
- * 
- * Welcome to the bottom of the Help file.
- *
- *
- * Thanks for reading!
- * If you have questions, or if you enjoyed this Plugin, please check
- * out my YouTube channel!
- *
- * https://www.youtube.com/c/SumRndmDde
- *
- *
- * Until next time,
- *   ~ SumRndmDde
- *
  */
 var MC = MC || {};
 MC.PKM = MC.PKM || {};
 MC.PKM.Natures = MC.PKM.Natures || {};
 
 var Imported = Imported || {};
-Imported["SumRndmDde Natures"] = 1.00;
+Imported["MC Natures"] = 1.00;
 
-if(Imported["SumRndmDde Copy Actors"]) {
+if(Imported.MC_SRD_PKM_CopyActor) {
 
 (function(_, $) {
 

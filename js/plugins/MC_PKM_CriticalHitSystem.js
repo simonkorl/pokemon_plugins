@@ -1,7 +1,7 @@
 //=============================================================================
  /*:
  * @plugindesc v1.00; This plugin replace the original CT(critical hit) system into Pokemon's Critical System (Only based on Gen5)
- * @author Monster Circuit
+ * @author Monster Circuit(MC)
  *
  * @param HPandMPFormula
  * @desc Calculates the values of HP and MP. Default: (((param * 2 + paramIv + (paramEv/4) + 100) * level)/100) + level + 10
@@ -13,6 +13,14 @@
  * This Script does both adding critical hit level into BattleManager (as ctl) and modifying the original ct system in RMMV into
  * that in Pokemon
  *
+ *=============================================================================
+ *  Dependencies
+ *=============================================================================
+ * !! Main Purpose (Some functions can work without these plugins, however this
+ * may cause results that betray the main design purpose of this plugin):
+ * 1. MC_PKM_StatModifier.js: Without it, the level of CT stat cannot be change
+ * by skills. The missing of this plugin will not display an error. Place it ABOVE this one.
+ * 
  *=============================================================================
  *   Pokemon Critcal Hit System in Gen5 (Simplified Chinese Version)
  *=============================================================================
@@ -33,10 +41,11 @@
  * 如果防御方处于咒语状态，不会出现会心一击。
  * 
  * ============================================================================
- *   Notetag
+ *   Notetag (not case-sensitive)
  * ============================================================================
  * <ct level: X> or <ctl : X> 
- * X is a single number in [0,4] and 6 meaning the basic critical hit level. 6 represents guaranteed critical hit.
+ * X is a single integer meaning the basic critical hit level.
+ * X is in [0,4] and 6. 6 represents guaranteed critical hit.
  * X is 0 at default
  * ============================================================================
  */
@@ -81,19 +90,20 @@ DataManager.processCtNoteTag = function(group){
 //============================================
 
 Game_Action.prototype.itemCri = function(target) {
-    if(this.isSkill()){
+    if(this.isSkill()){ //only skills have CT
         var states = target.states();
         var ctl = 0;
+        //states will affect critical hit
         for(var i = 0;i < states.length; ++i){
             if(states[i].name === "咒语")
-                return 0;
+                return MC.PKM.CTSystem.ctRate[0];
             else if(states[i].name === "聚气"){
                 ctl += 2;
                 break;
             }
         }
         //todo traits will avoid critical hit
-        if(this.item().ctl >= 5)
+        if(this.item().ctl > 5) //skills like 山岚、冰息 guarantee CT
             return 1;
         ctl += this.item().ctl;
         //todo ctl with traits
@@ -101,7 +111,7 @@ Game_Action.prototype.itemCri = function(target) {
         ctl = ctl.clamp(0,4);
         return MC.PKM.CTSystem.ctRate[ctl];
     }
-    else
+    else // items don't have CT
         return 0;
     
 };

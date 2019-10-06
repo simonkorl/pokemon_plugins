@@ -1,15 +1,15 @@
 //=============================================================================
  /*:
  * @plugindesc v1.02; This plugin provides the ability to give enemies a predefined level. See Help for more information.
- * @author FlipelyFlip
+ * @author MC, FlipelyFlip
  * 
  * @param Level PreFix
- * @desc Defines the prefix, which will be used to show the level. Default: Lvl.
+ * @desc Defines the prefix, which will be showed before the number in the level display. Default: Lvl.
  * @default "Lvl."
  *
  * @help
- * This script is an add-On to my FFP_PokemonBaseStats.js and
- * FFP_EVExpAndMoneyHandler.js. It gives you the possibility to give
+ * This script is an add-On to MC_FFP_PKM_BaseStats.js and
+ * MC_FFP_EVExpAndMoneyHandler.js. It gives you the possibility to give
  * enemies a specific level or a range of levels. Also you can set enemies
  * to have no levels and use the set stats at the database instead of calculating
  * the actual stats out of it.

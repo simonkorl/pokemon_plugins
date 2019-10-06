@@ -1,6 +1,6 @@
 /*:
  * @plugindesc Pokemon Plugin: Displays the Elements assigned to the Actor in their status. (Requires MC_SRD_PKM_TypeSystem)
- * @author SumRndmDde
+ * @author MC, SumRndmDde
  *
  * @param No Element Text
  * @desc This will be the text that displays if the Actor does not have any Elements assigned to them.
@@ -136,7 +136,14 @@
  * 
  * This is an extension Plugin for MC_SRD_PKM_TypeSystem.
  * 
+ *=============================================================================
+ *   *  Dependencies
+ *=============================================================================
+ * !!! Vital (The program cannot work properly if you lack any one of these):
  *
+ * 1. MC_FFP_PKM_TypeSystem: Without it you will get an error message.
+ * Place it ABOVE this plugin.
+ * 
  * ==========================================================================
  * Explanation
  * ==========================================================================
@@ -166,24 +173,7 @@
  * This Plugin starts with the recommended Element color codes based
  * on the default Elements given in the Type System (MC_SRD_PKM_TypeSystem) 
  * Plugin.
- *
- *
- * ==========================================================================
- *  End of Help File
- * ==========================================================================
  * 
- * Welcome to the bottom of the Help file.
- *
- *
- * Thanks for reading!
- * If you have questions, or if you enjoyed this Plugin, please check
- * out my YouTube channel!
- *
- * https://www.youtube.com/c/SumRndmDde
- *
- *
- * Until next time,
- *   ~ SumRndmDde
  */
 
 var MC = MC || {};

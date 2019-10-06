@@ -1,7 +1,7 @@
 //=============================================================================
  /*:
  * @plugindesc v1.00; This plugin provides the ability to catch enemies. See help for more information.
- * @author FlipelyFlip
+ * @author MC, FlipelyFlip
  * 
  * @param Base Catch Rate
  * @desc Base Catch Rate is used, when an enemy has no Catch Rate assigned. Default: 45

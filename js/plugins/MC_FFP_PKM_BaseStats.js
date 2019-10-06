@@ -1,7 +1,13 @@
 //=============================================================================
  /*:
- * @plugindesc v1.00; This plugin changes the mechanic of stat-calculation for actors and enemies. 
- * @author FlipelyFlip
+ * @plugindesc v1.00; This plugin changes the mechanic of stat-calculation for actors and enemie.
+ * The default fomula is that of Pokemon. This plugin also implement the system of Effort Value (EV) and 
+ * Individual Value(IV) in Pokemon.
+ * 
+ * WARNING: This plugin depends on MC_FFP_PKM_CaptureSystem, or you cannot calculate the correct stats
+ * for enemies. You have to install it and place CaptureSystem above this plugin.
+ *
+ * @author MC, FlipelyFlip
  *
  * @param HPandMPFormula
  * @desc Calculates the values of HP and MP. Default: (((param * 2 + paramIv + (paramEv/4) + 100) * level)/100) + level + 10
@@ -29,17 +35,38 @@
  *
  * @help
  * This script provides the feature of Pokemon to define basestats for actors and
- * enemies. You can define your own formulas to calculate the stats for them.
- *
+ * enemies. You can define your own formulas to calculate the stats for them too.
+ * 
+ *=============================================================================
+ *   *  Dependencies
+ *=============================================================================
+ * !!! Vital (The program cannot work properly if you lack any one of these):
+ * 
+ * 1. MC_FFP_PKM_CaptureSystm: Without it you cannot calculate the enemies' stats
+ * and the program will output an error message. This plugin can be either ABOVE
+ * or BELOW this one.
+ * 
+ * !! Main purpose (Some functions can work without these plugins, however this
+ * may cause results that betray the main design purpose of this plugin)
+ * 
+ * 1. MC_FFP_PKM_EnemyLevels: Without it the enemy's level is either the average
+ * level of your party or 1. If you want to set the enemies' levels, install this
+ * plugin first and place it ABOVE this one.
+ * 2. MC_FFP_EVExpAndMoneyHandler.js: Without this, pokemon will not get EV which
+ * gets away from the design purpose of the system. Place it ABOVE this one.
+ * 
  *=============================================================================
  *   *  Defining BaseStats for Actors and Enemies
  *=============================================================================
- * To define the basestats for enemies is very easy. You just set the stats to
- * whatever you want. To calculate the stats just use the formula you entered.
+ * To define the basestats for enemies, you can do it in two ways.
+ * 1. Install MC_FFP_PKM_EnemyLevels.js and set the enemy's level tag as <no level>
+ * and then set the stats through enemy's setting interface.
+ * 2. Install MC_FFP_PKM_CaptureSystem.js and set the enemy's <actor fix:>, use
+ * MC_FFP_PKM_EnemyLevels.js to set the level of enemy.
  *
- * For actors you have to do it a bit different. Go to the Class-Tab and define
- * the stats for level 1 to the same as the stat on level 99 via the
- * "Generate Curve..."-Button.
+ * For actors, go to the Class-Tab and define
+ * the stats for level 1 to **the same as** the stat on level 99 via the
+ * "Generate Curve..."-Button. The level will follow the current level of actor.
  *
  *=============================================================================
  *   *  Possible Notetags (not case-sensitive)
@@ -47,25 +74,25 @@
  * <shedinja> or <ninjatom>
  * This is used to define that a character will always have 1 HP. It doesn't
  * matter what level he is or what his basestat would be
- *
+ * 
  *=============================================================================
  *   *  HP and MP Formula
  *=============================================================================
  * This formula is used to calculate the actual HP and MP an actor or an enemy
- * has. Via the default formula it is not possible to have less HP than 11.
- * Since its calculated differently than the other stats in Pokemon, I splited
- * it. 
+ * has.
  *
  * (((param * 2 + paramIv + (paramEv/4) + 100) * level)/100) + level + 10
  *
  * param = BaseStat from the Database.
  * paramIv = IVs (Individual Values) is a value between 0 and your defined max.
+ * This will be assigned randomly between 0 and IVmax
  * paramEv = EVs (Effort Values) is a value between 0 and your defined max.
- * level = the level of the enemy. if MC_FFP_EnemyLevels.js is not installed, the
- * average party level will be used.
+ * This can be gained from MC_FFP_PKM_EVExpAndMoneyHandler
+ * level = the level of the enemy. if MC_FFP_PKM_EnemyLevels.js is not installed, 
+ * the level will be either the average of the party or 1.
  *
  * You can define your formula however you want.
- *
+ * 
  *=============================================================================
  *   *  Other Stats Formula
  *=============================================================================
@@ -76,9 +103,11 @@
  *
  * param = BaseStat from the Database.
  * paramIv = IVs (Individual Values) is a value between 0 and your defined max.
+ * This will be assigned randomly between 0 and IVmax
  * paramEv = EVs (Effort Values) is a value between 0 and your defined max.
- * level = the level of the enemy. if MC_FFP_EnemyLevels.js is not installed, the
- * average party level will be used.
+ * This can be gained from MC_FFP_PKM_EVExpAndMoneyHandler
+ * level = the level of the enemy. if MC_FFP_PKM_EnemyLevels.js is not installed, 
+ * the level will be either the average of the party or 1.
  *
  * You can define your formula however you want.
  *
@@ -96,9 +125,9 @@
  * The maximum amount that the EV can reach. Default it's 510 just like in
  * Pokemon.
  * If you wish to not use it, just ignore it. If you have the
- * FFP_EVExpAndMoneyHandler.js, you can gain EVs via defeating enemies.
+ * MC_FFP_PKM_EVExpAndMoneyHandler.js, you can gain EVs via defeating enemies.
  * For more information about that, check out the help file of
- * FFP_EVExpAndMoneyHandler.js.
+ * MC_FFP_EVExpAndMoneyHandler.js.
  *
  *
  */
@@ -192,8 +221,9 @@ Game_BattlerBase.prototype.param = function(paramId) {
                 newCalc = eval(String(MC.PKM.BaseStats.parameters['HPandMPFormula']));
             }
         } 
-        else if(paramId === 1)
+        else if(paramId === 1){
             return 0;
+        }
         else {
 			newCalc = eval(String(MC.PKM.BaseStats.parameters['OtherStatsFormula']));
 		};
@@ -201,17 +231,29 @@ Game_BattlerBase.prototype.param = function(paramId) {
 			newCalc *= this.paramRate(paramId) * this.paramBuffRate(paramId);
 			newCalc = newCalc.clamp(minValue, maxValue);
         };
-		return newCalc;
+		return Math.floor(newCalc);
 	} else {
 	    var maxValue = this.paramMax(paramId);
 		var minValue = this.paramMin(paramId);
         var newCalc = 0.0;
         var param;
-        if(this.enemy().actorFix) param = $gameActors.actor(this.enemy().actorFix).paramBase(paramId);
-        else console.error("actorFix error in BaseStats.js");
+        /*
+        This part use @param actorFix in MC_FFP_PKM_CaptureSystem.js to calculate the parameters
+        for emenies.
+        */
+        if(this.enemy().actorFix){
+            param = $gameActors.actor(this.enemy().actorFix).paramBase(paramId);
+        }
+        else {
+            console.error("actorFix error in BaseStats.js. This may happen either\
+            you did't place MC_FFP_PKM_CaptureSystem above this plugin \
+            or you did't assign <enemy level:> in enemies' desciption");
+        }
 		var paramIv = this.paramIv(paramId);
-		var paramEv = 0;
-		var level = 1;
+        var paramEv = 0;
+        
+        var level = 1;
+        //The level is calculated by the pre-set level or the average level of the party
 		if (Imported.MC_FFP_PKM_EnemyLevels) {
 			level = this.level();
 		} else if (eval(MC.PKM.BaseStats.parameters['AverageLevel'])) {
@@ -223,11 +265,11 @@ Game_BattlerBase.prototype.param = function(paramId) {
 		} else {
 			newCalc = eval(String(MC.PKM.BaseStats.parameters['OtherStatsFormula']));
 		};
-		if (level === 0) {
+		if (level === 0) { // if the enemy is set no level
 			newCalc = param;
         };
         newCalc *= this.paramRate(paramId) * this.paramBuffRate(paramId);
-		return newCalc.clamp(minValue, maxValue);
+		return Math.floor(newCalc.clamp(minValue, maxValue));
 	};
 	return 0;
 };

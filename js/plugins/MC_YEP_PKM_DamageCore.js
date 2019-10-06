@@ -16,7 +16,7 @@ Yanfly.DMG.version = 1.07;
  * the plugin is based on Yanfly's DamageCore.js
  * WARNING: this plugin must be below MC_SRD_PKM_TypeSystem.js
  * 
- * @author Monster Circuit
+ * @author Monster Circuit, Yanfly
  *
  * @param ---Damage Cap---
  * @default
@@ -45,18 +45,26 @@ Yanfly.DMG.version = 1.07;
  * @default 9999
  *
  * @help
+ *=============================================================================
+ *   *  Dependencies
+ *=============================================================================
+ * !!! Vital (The program cannot work properly if you lack any one of these):
+ * 
+ * 1. YEP_BattleEngineCore.js: Without it the damage calculation may be wrong.
+ * Place it ABOVE this plugin.
+ * 2. MC_SRD_PKM_TypeSystem.js: Without it, the program will break down when
+ * calculating damage.
+ * Place it ABOVE this plugin.
+ * 
  * ============================================================================
  * Introduction
  * ============================================================================
  *
- * The game gives a lot of control over the damage formula, but it doesn't give
- * much control for everything else after calculating it. This plugin will give
- * you control over the order the damage formula is calculated in addition to
- * letting you insert your own changes to it at whatever you wish.
+ * This plugin is based on Yanfly's DamageCore.js and change the damage formula into
+ * Pokemon GEN5 style.
  *
- * If you have YEP_BattleEngineCore.js installed, place this plugin under
- * YEP_BattleEngineCore.js if you wish to make use of the extra features this
- * plugin has to offer.
+ * It is not recommended to use Damage Cap for now because this plugin is not fully
+ * developed.
  *
  * ============================================================================
  * Notetags
@@ -98,75 +106,6 @@ Yanfly.DMG.version = 1.07;
  *   SetHealingCap 9999    Sets the default healing cap to 9999.
  *   EnableDamageCap       Enables default cap for both damage and healing.
  *   DisableDamageCap      Disables default cap for both damage and healing.
- *
- * ============================================================================
- * Lunatic Mode - Damage Formula
- * ============================================================================
- *
- * For those who think the damage formula box is too small and would like to
- * use the notebox instead to declare the damage formula, you can use the
- * notetags below:
- *
- * Skill and Item Notetags:
- *   <damage formula>
- *    value = 500;
- *    value += 2500;
- *   </damage formula>
- *   This will overwrite the damage formula found at the top and use the
- *   strings in the middle as the formula instead. Keep in mind that using
- *   comments here will cancel out anything following after. New variables can
- *   be used, too, to make damage calculations a bit easier.
- *
- *   value   - Refers to the amount that will become the base damage value.
- *   user    - Refers to the actor/enemy using the skill/item.
- *   subject - Refers to the actor/enemy using the skill/item.
- *   target  - Refers to the target actor/enemy on the receiving end of
- *             the skill/item.
- *
- * ============================================================================
- * Lunatic Mode - Damage Steps
- * ============================================================================
- *
- * The damage formula isn't all there is to calculating the damage that appears
- * at the very end. In this plugin's parameters towards the bottom, you'll see
- * a large list of Damage Steps. Each one of these steps is a line of code that
- * the damage count will run through in order to calculate and finalize the
- * damage output.
- *
- * The purpose of those parameters is to allow you ease of access on where you
- * want to insert code that is your own or custom code provided by another
- * plugin. Here's a quick reference on how the original damage flow looked like:
- *
- * Game_Action.prototype.makeDamageValue = function(target, critical) {
- *     var item = this.item();
- *     var baseDamage = this.evalDamageFormula(target);
- *     var value = baseDamage * this.calcElementRate(target);
- *     if (this.isPhysical()) {
- *         value *= target.pdr;
- *     }
- *     if (this.isMagical()) {
- *         value *= target.mdr;
- *     }
- *     if (baseDamage < 0) {
- *         value *= target.rec;
- *     }
- *     if (critical) {
- *         value = this.applyCritical(value);
- *     }
- *     value = this.applyVariance(value, item.damage.variance);
- *     value = this.applyGuard(value, target);
- *     value = Math.round(value);
- *     return value;
- * };
- *
- * In the vein of keeping everything organized, the following lines have been
- * incorporated into new functions:
- *
- * Formula                               New Function
- *   value *= target.pdr                   value = this.applyPhysicalRate
- *   value *= target.mdr                   value = this.applyMagicalRate
- *   value *= target.rec                   value = this.applyHealRate
- *   value = this.applyCritical(value)     value = this.applyCriticalRate
  *
  * ============================================================================
  * Yanfly Engine Plugins - Battle Engine Extension - Action Sequence Commands

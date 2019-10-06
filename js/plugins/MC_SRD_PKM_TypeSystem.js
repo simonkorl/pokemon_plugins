@@ -1,6 +1,6 @@
 /*:
 * @plugindesc Pokemon Plugin: Adds the Pokemon type system to your game using RPG Maker MV's elements.
-* @author SumRndmDde
+* @author MC, SumRndmDde
 *
 * @param STAB Multiplier
 * @desc If an Actor uses a Skill with the same Element as their own, then the damage will be multiplied by this value.
@@ -633,23 +633,6 @@
 * This list is also what all of the default Parameter values are based
 * off of.
 *
-*
-* ==========================================================================
-*  End of Help File
-* ==========================================================================
-* 
-* Welcome to the bottom of the Help file.
-*
-*
-* Thanks for reading!
-* If you have questions, or if you enjoyed this Plugin, please check
-* out my YouTube channel!
-*
-* https://www.youtube.com/c/SumRndmDde
-*
-*
-* Until next time,
-*   ~ SumRndmDde
 */
 
 var MC = MC || {};
